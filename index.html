@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real World CE | Comprehensive CMV Mastery</title>
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .bg-medical-blue { background-color: #002147; }
+        .text-medical-blue { color: #002147; }
+        
+        /* 3D Virion Styles */
+        #virion-container { perspective: 1000px; height: 320px; width: 320px; }
+        .virion-sphere { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; animation: rotateVirion 25s linear infinite; }
+        .virion-sphere:hover { animation-play-state: paused; }
+        @keyframes rotateVirion { from { transform: rotateY(0deg) rotateX(0deg); } to { transform: rotateY(360deg) rotateX(360deg); } }
+        .spike { position: absolute; width: 8px; height: 45px; background: linear-gradient(to top, #1e40af, #3b82f6); top: 50%; left: 50%; border-radius: 50% 50% 0 0; transform-origin: bottom center; opacity: 0.9; }
+        .core { position: absolute; width: 140px; height: 140px; background: radial-gradient(circle at 30% 30%, #1e3a8a, #0f172a); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 50px rgba(30, 58, 138, 0.4); }
+
+        /* Utilities */
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 1); }
+        .quiz-card { display: none; }
+        .quiz-card.active { display: block; animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        /* Lab Tool */
+        .pipette-tool { cursor: crosshair; transition: transform 0.2s; }
+        .pipette-tool:active { transform: scale(0.95); }
+        .feedback-video-wrap iframe { width: 100%; min-height: 280px; border: 0; border-radius: 1rem; }
+        .rationale-list li { margin-left: 1rem; list-style: disc; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 leading-relaxed overflow-x-hidden">
+    <!-- Accredited Header -->
+    <div class="bg-medical-blue text-white text-[10px] font-bold py-2 px-6 flex justify-between items-center tracking-[0.2em] uppercase">
+        <span>Real World CE: Accredited Clinical Curriculum</span>
+        <span class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[14px]">verified</span> 1.5 AMA PRA Category 1 Credits™
+        </span>
+    </div>
+    <!-- Main Navigation -->
+    <header class="sticky top-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <!-- Globe Icon -->
+                <div class="flex items-center justify-center">
+                    <img src="logo-transparent.png" class="h-16 w-auto object-contain drop-shadow-lg" alt="Real World CE Logo">
+                        <circle cx="15" cy="15" r="15"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                    </svg>
+                </div>
+
+                <!-- Text Logo -->
+                <div class="flex flex-col leading-tight">
+                    <span class="font-extrabold text-2xl tracking-tight text-slate-900 uppercase">
+                        Real World <span class="text-blue-600">CE</span>
+                    </span>
+                    <span class="text-[10px] font-semibold tracking-widest uppercase text-slate-500 mt-1">
+                        Featuring:
+                        <span class="font-extrabold text-slate-900">REAL </span>
+                        <span class="font-extrabold text-blue-600">CASE</span>
+                    </span>
+                </div>
+            </div>
+            <nav class="hidden lg:flex items-center gap-8">
+                <div class="flex gap-6 text-sm font-semibold text-slate-600">
+                    <a href="#case" class="hover:text-blue-600 transition">Sarah's Case</a>
+                    <a href="#lab" class="hover:text-blue-600 transition">3D Lab</a>
+                    <a href="#kinetics" class="hover:text-blue-600 transition">Kinetics</a>
+                    <a href="#exam" class="hover:text-blue-600 transition">Final Exam</a>
+                </div>
+                <div class="h-10 w-px bg-slate-200"></div>
+                <div class="flex flex-col items-end">
+                    <span class="text-[10px] font-black text-slate-400 uppercase">Mastery Progress</span>
+                    <div class="flex items-center gap-3 mt-1">
+                        <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                            <div id="global-progress" class="h-full bg-blue-600 transition-all duration-1000" style="width: 5%"></div>
+                        </div>
+                        <span id="progress-text" class="text-xs font-bold text-blue-600">5%</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-32">
+        <!-- Hero Section -->
+        <section class="relative bg-slate-900 text-white rounded-[3rem] p-12 md:p-20 overflow-hidden shadow-2xl">
+            <div class="absolute inset-0">
+                <img src="lab-background.png" alt="Lab Background" class="w-full h-full object-cover brightness-50 contrast-110"/>
+            </div>
+            <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="bg-blue-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Interactive Clinical Simulation</span>
+                    <h2 class="text-5xl md:text-6xl font-black leading-tight tracking-tight">Manage the <br/>Unmanageable <span class="text-blue-500">CMV</span></h2>
+                    <p class="text-lg text-slate-300 max-w-lg">
+                        Master the transition from failed Valganciclovir therapy to genotypic-guided rescue. A complete hands-on module for transplant professionals.
+                    </p>
+                    <a href="#case" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-2xl transition inline-flex items-center gap-2 shadow-lg shadow-blue-900/40">
+                        Start Simulation <span class="material-symbols-outlined">play_arrow</span>
+                    </a>
+                </div>
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl hidden md:block">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Real-Time Data Stream</span>
+                        <div class="flex gap-1"><div class="w-2 h-2 rounded-full bg-red-500"></div><div class="w-2 h-2 rounded-full bg-green-500"></div></div>
+                    </div>
+                    <div class="space-y-4 font-mono text-xs text-blue-100">
+                        <p>&gt; Patient: Sarah Jenkins (D+/R-)</p>
+                        <p>&gt; Baseline Load: 38,000 IU/mL</p>
+                        <p>&gt; Status: Non-Responder at Day 14</p>
+                        <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                            <div class="h-full bg-red-500 w-[92%] animate-pulse"></div>
+                        </div>
+                        <p class="text-red-400 font-bold">&gt; ALERT: LACK OF LOG10 REDUCTION</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Module 1: Clinical Case Simulation -->
+        <section class="space-y-12" id="case">
+            <div class="max-w-2xl">
+                <h2 class="text-4xl font-bold tracking-tight mb-4">Phase 01: <span class="text-blue-600">Sarah's Case</span></h2>
+                <p class="text-slate-600">Follow Sarah, a 48-year-old kidney recipient, through a refractory crisis. Your decisions determine graft survival.</p>
+            </div>
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Patient Card -->
+                <div class="lg:col-span-4 bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100 space-y-6">
+                    <img src="sarah.png" alt="Sarah" class="w-40 h-40 rounded-3xl object-cover mx-auto shadow-md border-4 border-slate-50"/>
+                    <div class="text-center">
+                        <h4 class="text-2xl font-bold">Sarah Jenkins</h4>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">48y Kidney Recipient</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-blue-50 p-3 rounded-2xl">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Creatinine</p>
+                            <p class="font-bold text-slate-800">1.4 mg/dL</p>
+                        </div>
+                        <div class="bg-red-50 p-3 rounded-2xl">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Viral Load</p>
+                            <p class="font-bold text-red-600">35,000</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-2xl text-white text-[10px] font-mono">
+                        <p class="text-blue-400">// CLINICAL NOTE</p>
+                        <p>"Sarah presents with fatigue and leukopenia 1 month post-prophylaxis. Day 14 of therapy."</p>
+                    </div>
+                </div>
+                <!-- Simulation Interface -->
+                <div class="lg:col-span-8 bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 p-10 md:p-16 relative overflow-hidden flex items-center justify-center min-h-[500px]">
+                    <div class="w-full max-w-xl" id="sim-interface">
+                        <!-- Step 1 -->
+                        <div class="space-y-8">
+                            <div class="flex items-center gap-3 text-blue-600">
+                                <span class="material-symbols-outlined font-bold">clinical_notes</span>
+                                <span class="text-xs font-black uppercase tracking-widest">Decision Point 01</span>
+                            </div>
+                            <h3 class="text-3xl font-bold leading-tight">Therapeutic Failure?</h3>
+                            <p class="text-slate-600">Sarah has been on Valganciclovir 900mg BID for 14 days. Her viral load has only dropped from 38k to 35k IU/mL (&lt; 1 log10 reduction). What is the standard next action?</p>
+                            <div class="grid gap-4">
+                                <button onclick="simStep(1, 'A')" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-600 hover:bg-blue-50 transition flex items-center justify-between group">
+                                    <span><strong>Conservative:</strong> Increase dose to 1800mg BID &amp; monitor.</span>
+                                    <span class="material-symbols-outlined text-slate-300 group-hover:text-blue-600">chevron_right</span>
+                                </button>
+                                <button onclick="simStep(1, 'B')" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-600 hover:bg-blue-50 transition flex items-center justify-between group">
+                                    <span><strong>Diagnostic:</strong> Order UL97/UL54 Genotypic Testing STAT.</span>
+                                    <span class="material-symbols-outlined text-slate-300 group-hover:text-blue-600">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Module 2: 3D Lab -->
+        <section class="bg-slate-900 rounded-[3rem] p-12 text-white overflow-hidden shadow-2xl" id="lab">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-blue-400">deployed_code</span>
+                        <h2 class="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Interactive Lab 02</h2>
+                    </div>
+                    <h3 class="text-4xl font-bold tracking-tight">The <span class="text-blue-500">Mutation</span> Landscape</h3>
+                    <p class="text-slate-400">Interact with the 3D virion to identify the two major structural targets of CMV antiviral therapy.</p>
+                    <div class="space-y-4">
+                        <button onclick="highlightStructure('UL97')" class="w-full p-6 bg-white/5 border border-white/10 rounded-2xl text-left hover:bg-white/10 transition group">
+                            <h4 class="font-bold text-blue-400 mb-1">pUL97 Kinase (Activator)</h4>
+                            <p class="text-xs text-slate-500">Site of M460V mutation. Leads to Ganciclovir resistance.</p>
+                        </button>
+                        <button onclick="highlightStructure('UL54')" class="w-full p-6 bg-white/5 border border-white/10 rounded-2xl text-left hover:bg-white/10 transition group">
+                            <h4 class="font-bold text-emerald-400 mb-1">pUL54 Polymerase (Synthesizer)</h4>
+                            <p class="text-xs text-slate-500">Site of multi-drug resistance (Foscarnet/Cidofovir).</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center justify-center p-12 relative min-h-[500px]">
+                    <div id="virion-container">
+                        <div id="sphere" class="virion-sphere">
+                            <div class="core"></div>
+                            <!-- Spikes injected by JS -->
+                        </div>
+                    </div>
+                    <div id="lab-overlay" class="absolute bottom-6 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 text-xs text-white opacity-0 transition-opacity max-w-xs text-center">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Module 3: Molecular Simulation -->
+        <section class="space-y-12">
+            <div class="text-center">
+                <h2 class="text-4xl font-black">Molecular Diagnosis Bench</h2>
+                <p class="text-slate-500 mt-2">Simulate the DNA extraction process to reveal the genotype.</p>
+            </div>
+            <div class="bg-white rounded-[2.5rem] border border-slate-200 p-12 shadow-xl flex flex-col md:flex-row gap-12 items-center justify-center">
+                <div class="flex flex-col items-center gap-6">
+                    <div class="w-12 h-32 bg-red-100 border-2 border-red-500 rounded-b-xl relative overflow-hidden">
+                        <div class="absolute bottom-0 w-full h-[60%] bg-red-600/60"></div>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase text-slate-400">Sarah's Plasma</span>
+                </div>
+                <div id="pipette" onclick="runMolecularSim()" class="material-symbols-outlined text-6xl text-slate-300 pipette-tool hover:text-blue-600 transition">colorize</div>
+                <div class="flex flex-col items-center gap-6">
+                    <div class="w-12 h-32 bg-blue-50 border-2 border-slate-200 rounded-b-xl relative overflow-hidden">
+                        <div id="target-vial" class="absolute bottom-0 w-full h-0 bg-blue-500/30 transition-all duration-1000"></div>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase text-slate-400">Lysis Buffer</span>
+                </div>
+                <div class="md:ml-12 max-w-xs space-y-4">
+                    <div id="seq-output" class="bg-slate-900 rounded-2xl p-6 font-mono text-[10px] text-blue-300 hidden">
+                        <p>&gt; INITIATING PCR...</p>
+                        <p>&gt; AMPLIFYING UL97...</p>
+                        <p class="text-red-500">&gt; VARIANT FOUND: M460V</p>
+                        <p class="text-emerald-500">&gt; UL54: WILD TYPE</p>
+                    </div>
+                    <p id="sim-prompt" class="text-xs text-slate-500 italic">Click the pipette icon to transfer plasma and start extraction.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Module 4: Kinetics -->
+        <section class="space-y-12" id="kinetics">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-4xl font-bold">Viral Kinetics Simulation</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Adjust the efficacy of the first-line therapy to model the <strong>Breakthrough Rebound</strong>. This "U-shaped" curve is a clinical red flag for biological resistance.
+                    </p>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-6 shadow-md">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-[10px] font-black uppercase text-slate-400">Therapy Power (%)</label>
+                                <span id="power-val" class="text-xs font-bold text-blue-600">90%</span>
+                            </div>
+                            <input id="power-slider" type="range" min="0" max="100" value="90" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateKinetics()"/>
+                        </div>
+                        <div class="p-4 bg-blue-50 text-blue-800 text-xs rounded-xl font-medium">
+                            Tip: Lower efficacy (due to mutation) allows the red line (Resistant Strain) to outcompete the blue line (Wild Type).
+                        </div>
+                    </div>
+                </div>
+                <div class="h-[350px] bg-white rounded-3xl p-8 border border-slate-200 shadow-xl">
+                    <canvas id="kineticsChart"></canvas>
+                </div>
+            </div>
+        </section>
+        <!-- Module 5: Exam -->
+        <section class="max-w-4xl mx-auto space-y-12" id="exam">
+            <div class="text-center">
+                <h2 class="text-4xl font-black">Global Mastery Assessment</h2>
+                <p class="text-slate-500 mt-2">Complete all 15 questions to claim your credits.</p>
+            </div>
+            <div class="bg-white rounded-[3rem] shadow-2xl border border-slate-100 p-12 md:p-16 relative overflow-hidden min-h-[600px]">
+                <div class="flex justify-between items-center mb-12">
+                    <div class="flex items-center gap-3">
+                        <span id="q-number" class="text-2xl font-black text-blue-600">01</span>
+                        <span class="text-slate-300 font-bold">/ 15</span>
+                    </div>
+                    <div id="q-dots" class="flex gap-1"></div>
+                </div>
+                <div id="quiz-container">
+                    <!-- Questions Injected Here -->
+                </div>
+                <div id="quiz-feedback" class="mt-8 hidden p-6 rounded-2xl"></div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-medical-blue text-white py-24 mt-32">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <div class="col-span-2 space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-0">
+                        <img src="logo-transparent.png" class="h-12 w-auto object-contain opacity-95" alt="Real World CE Logo">
+                    </div>
+                    <span class="font-extrabold text-xl tracking-tighter uppercase">REAL WORLD CE</span>
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
+                    Leading the digital transformation of accredited medical education through real-world clinical simulations.
+                </p>
+            </div>
+            <div class="space-y-4">
+                <h5 class="text-xs font-black uppercase text-blue-500 tracking-widest">Evidence Base</h5>
+                <ul class="text-xs text-slate-400 space-y-3">
+                    <li>ATC Meeting Abstracts</li>
+                    <li>BTS Clinical Guidelines (2024)</li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h5 class="text-xs font-black uppercase text-blue-500 tracking-widest">Accreditation</h5>
+                <div class="border border-slate-800 p-4 rounded-xl text-[10px] text-slate-500 italic">
+                    Valid: Jan 30, 2026 - Jan 30, 2028<br/>
+                    Real World CE | ACCME Provider #00125206
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        let currentMastery = 5;
+        let currentQ = 1;
+        let score = 0;
+
+        function addProgress(val) {
+            currentMastery = Math.min(100, currentMastery + val);
+            document.getElementById('global-progress').style.width = currentMastery + '%';
+            document.getElementById('progress-text').innerText = Math.round(currentMastery) + '%';
+        }
+
+        // --- 3D Virion Generation ---
+        const sphere = document.getElementById('sphere');
+        for (let i = 0; i < 45; i++) {
+            const spike = document.createElement('div');
+            spike.className = 'spike';
+            const theta = Math.acos(-1 + (2 * i) / 45);
+            const phi = Math.sqrt(45 * Math.PI) * theta;
+            const x = 70 * Math.sin(theta) * Math.cos(phi);
+            const y = 70 * Math.sin(theta) * Math.sin(phi);
+            const z = 70 * Math.cos(theta);
+            
+            const rotY = phi * (180 / Math.PI);
+            const rotX = theta * (180 / Math.PI) - 90;
+            
+            spike.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+            sphere.appendChild(spike);
+        }
+
+        function highlightStructure(type) {
+            const overlay = document.getElementById('lab-overlay');
+            overlay.style.opacity = '1';
+            if (type === 'UL97') {
+                overlay.innerHTML = `<p class="font-bold text-blue-400 mb-1">pUL97 Identified</p><p>Essential for activating Ganciclovir. Mutations here prevent drug activation.</p>`;
+            } else {
+                overlay.innerHTML = `<p class="font-bold text-emerald-400 mb-1">pUL54 Identified</p><p>The viral DNA replication engine. Mutations cause high-level multi-drug resistance.</p>`;
+            }
+            addProgress(5);
+            setTimeout(() => overlay.style.opacity = '0', 4000);
+        }
+
+        // --- Clinical Simulation ---
+        function simStep(step, choice) {
+            if (choice === 'A') {
+                alert("CLINICAL WARNING: Increasing dose without testing ignores potential resistance and risks marrow toxicity. Guidelines mandate testing first.");
+                return;
+            }
+            addProgress(15);
+            const view = document.getElementById('sim-interface');
+            view.innerHTML = `
+                <div class="space-y-8 animate-pulse">
+                    <h3 class="text-3xl font-bold">Resequencing Result</h3>
+                    <div class="bg-slate-900 rounded-2xl p-6 font-mono text-xs text-emerald-400">
+                        <p>> UL97 CODEC: M460V DETECTED</p>
+                        <p>> TREATMENT STATUS: RESISTANT TO GCV/VGCV</p>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">Sarah's creatinine is 1.4 mg/dL. Which rescue agent is preferred to clear the virus without further damaging her kidney graft?</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="simFinal('F')" class="p-6 border-2 border-slate-100 rounded-2xl font-bold hover:bg-red-50 transition">Foscarnet (IV)</button>
+                        <button onclick="simFinal('M')" class="p-6 border-2 border-blue-100 rounded-2xl font-bold text-blue-600 hover:bg-blue-50 transition">Maribavir (Oral)</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simFinal(choice) {
+            if (choice === 'F') {
+                alert("NEPHROTOXICITY ALERT: Foscarnet is highly nephrotoxic. In a kidney recipient with Cr 1.4, Maribavir is the guideline-preferred, kidney-safe option.");
+                return;
+            }
+            addProgress(20);
+            document.getElementById('sim-interface').innerHTML = `
+                <div class="text-center py-10 space-y-6">
+                    <span class="material-symbols-outlined text-7xl text-blue-600 animate-bounce">verified</span>
+                    <h3 class="text-4xl font-black">Clinical Success</h3>
+                    <p class="text-slate-500">By following AST guidelines, you identified resistance early and chose a kidney-safe rescue therapy. Sarah's viral load cleared in 4 weeks.</p>
+                    <button onclick="location.reload()" class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold">Reset Simulation</button>
+                </div>
+            `;
+        }
+
+        // --- Molecular Lab ---
+        function runMolecularSim() {
+            const pipette = document.getElementById('pipette');
+            const target = document.getElementById('target-vial');
+            const output = document.getElementById('seq-output');
+            const prompt = document.getElementById('sim-prompt');
+
+            pipette.classList.add('animate-bounce');
+            setTimeout(() => {
+                target.style.height = '60%';
+                prompt.innerText = 'Extraction complete. Sequencing DNA...';
+                addProgress(10);
+                setTimeout(() => {
+                    output.classList.remove('hidden');
+                    prompt.innerText = 'Genotype Identified: M460V (UL97)';
+                }, 1500);
+            }, 1000);
+        }
+
+        // --- Kinetics Chart ---
+        let kChart;
+        function updateKinetics() {
+            const eff = document.getElementById('power-slider').value / 100;
+            document.getElementById('power-val').innerText = Math.round(eff * 100) + '%';
+            
+            const ctx = document.getElementById('kineticsChart').getContext('2d');
+            const days = Array.from({length: 30}, (_, i) => i);
+            const wildType = days.map(d => 10000 * Math.pow(1 - eff, d));
+            const resistant = days.map(d => 10 * Math.pow(1.18, d));
+            
+            if (kChart) kChart.destroy();
+            
+            kChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [
+                        { label: 'Wild-Type', data: wildType, borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.1)', pointRadius: 0 },
+                        { label: 'Resistant Strain', data: resistant, borderColor: '#ef4444', tension: 0.4, pointRadius: 0 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { type: 'logarithmic', title: { display: true, text: 'Viral Load (IU/mL)' } }
+                    }
+                }
+            });
+        }
+
+        // --- 15 Question Exam Data ---
+        const quizData = [
+            {
+                q: "According to AST guidelines, 'Refractory CMV' is defined as failure to achieve a >1 log10 reduction in viral load after how many days of therapy?",
+                a: 1,
+                c: ["7 Days", "14 Days", "21 Days"],
+                explanation: "AST guidance generally defines refractory CMV as failure to achieve an adequate virologic response after about 14 days of appropriately dosed antiviral therapy. A drop of less than 1 log10 after this window should trigger concern for refractory disease and resistance testing.",
+                whyWrong: {0: "Seven days is usually too early to formally classify therapy as refractory unless the overall clinical picture is rapidly worsening.", 2: "Waiting 21 days delays resistance workup and can allow ongoing viral replication, graft injury, and marrow toxicity."},
+                resourceTitle: "Why 14 days matters",
+                resourceType: "text"
+            },
+            {
+                q: "The M460V mutation occurs in which viral domain?",
+                a: 0,
+                c: ["UL97 Kinase", "UL54 Polymerase", "UL123 (Immediate Early)"],
+                explanation: "M460V is a classic UL97 kinase mutation. UL97 is needed to phosphorylate and activate ganciclovir, so mutations here can lead to ganciclovir and valganciclovir resistance.",
+                whyWrong: {1: "UL54 mutations are associated more with DNA polymerase resistance patterns and can affect multiple agents.", 2: "UL123 is not the resistance domain discussed for the common ganciclovir resistance mutation M460V."},
+                resourceTitle: "Mutation map review",
+                resourceType: "text"
+            },
+            {
+                q: "Which drug is contraindicated with Maribavir due to antagonism?",
+                a: 2,
+                c: ["Foscarnet", "Cyclosporine", "Valganciclovir"],
+                explanation: "Maribavir should not be co-administered with ganciclovir or valganciclovir because of antagonism. Their mechanisms interfere with the intended antiviral strategy.",
+                whyWrong: {0: "Foscarnet has toxicity concerns, especially nephrotoxicity, but the classic antagonism warning is with valganciclovir/ganciclovir.", 1: "Cyclosporine creates monitoring concerns, but it is not the primary antagonism contraindication being tested here."},
+                resourceTitle: "Mechanism conflict explainer",
+                resourceType: "text"
+            },
+            {
+                q: "What is the doubling time of CMV in a high-risk recipient without therapy?",
+                a: 1,
+                c: ["~6 hours", "~24 hours", "~7 days"],
+                explanation: "Untreated CMV can expand quickly in high-risk transplant populations. A rough clinical teaching point is that viral burden may double about every 24 hours, which is why delayed action matters.",
+                whyWrong: {0: "Six hours overstates the growth rate and is not the expected teaching-point answer in this context.", 2: "Seven days is far too slow for the rapid replication seen in high-risk CMV."},
+                resourceTitle: "Kinetics refresher",
+                resourceType: "text"
+            },
+            {
+                q: "Which is a hallmark side effect of Maribavir?",
+                a: 0,
+                c: ["Dysgeusia (Metallic Taste)", "Nephrotoxicity", "Neutropenia"],
+                explanation: "Dysgeusia is one of the hallmark adverse effects learners should remember for maribavir. It is common and often described as metallic or altered taste.",
+                whyWrong: {1: "Nephrotoxicity is more strongly associated with agents like foscarnet rather than maribavir.", 2: "Neutropenia is a concern with ganciclovir/valganciclovir, not the hallmark test answer for maribavir."},
+                resourceTitle: "Adverse-event pearl",
+                resourceType: "text"
+            },
+            {
+                q: "UL54 mutations typically confer resistance to:",
+                a: 2,
+                c: ["Ganciclovir only", "Maribavir only", "Ganciclovir, Foscarnet, and Cidofovir"],
+                explanation: "UL54 encodes the viral DNA polymerase, so mutations here can create broad resistance across multiple CMV antivirals, including ganciclovir, foscarnet, and cidofovir depending on the mutation pattern.",
+                whyWrong: {0: "Limiting UL54 to ganciclovir alone misses the major teaching point that UL54 can create multi-drug resistance.", 1: "Maribavir resistance is not the classic UL54 teaching target in this item."},
+                resourceTitle: "Polymerase resistance overview",
+                resourceType: "text"
+            },
+            {
+                q: "Refractory CMV without genotypic resistance is often caused by:",
+                a: 1,
+                c: ["Drug purity", "Inadequate drug exposure / immunosuppression", "Diet"],
+                explanation: "Not all refractory CMV is due to resistance mutations. Inadequate exposure, absorption problems, adherence issues, or excessive immunosuppression can all contribute.",
+                whyWrong: {0: "Drug purity is not the standard clinical explanation tested here.", 2: "Diet alone is not the core driver of refractory CMV in this context."},
+                resourceTitle: "When it is not resistance",
+                resourceType: "text"
+            },
+            {
+                q: "What defines 'Late-Onset' CMV?",
+                a: 0,
+                c: ["CMV after prophylaxis discontinuation", "CMV in elderly", "CMV 10 years post-tx"],
+                explanation: "Late-onset CMV typically refers to disease or viremia that emerges after prophylaxis has stopped, especially in higher-risk transplant recipients.",
+                whyWrong: {1: "Late-onset CMV is not defined by the patient being older.", 2: "Ten years post-transplant is not the definition being tested."},
+                resourceTitle: "Timing concept recap",
+                resourceType: "text"
+            },
+            {
+                q: "In kidney recipients with Cr > 1.4, which second-line agent is preferred?",
+                a: 1,
+                c: ["Foscarnet", "Maribavir", "Cidofovir"],
+                explanation: "Maribavir is often favored in this teaching scenario because it avoids the nephrotoxicity concerns that make foscarnet and cidofovir problematic in kidney recipients.",
+                whyWrong: {0: "Foscarnet can be effective, but nephrotoxicity makes it a poor default choice when renal preservation is a priority.", 2: "Cidofovir is also nephrotoxic and is generally not the preferred answer here."},
+                resourceTitle: "Kidney-safe rescue rationale",
+                resourceType: "text"
+            },
+            {
+                q: "Which D/R status is highest risk?",
+                a: 2,
+                c: ["D-/R-", "D-/R+", "D+/R-"],
+                explanation: "D+/R- is the classic highest-risk CMV status because the donor is positive and the recipient has no prior immunity.",
+                whyWrong: {0: "D-/R- is low risk because there is no known donor CMV exposure and no prior recipient infection.", 1: "D-/R+ has prior recipient exposure and is not the highest-risk category."},
+                resourceTitle: "Risk stratification pearl",
+                resourceType: "text"
+            },
+            {
+                q: "Foscarnet works by directly inhibiting:",
+                a: 1,
+                c: ["Viral Kinase (UL97)", "DNA Polymerase (UL54)", "Cellular Proteasome"],
+                explanation: "Foscarnet directly inhibits viral DNA polymerase and does not require phosphorylation by UL97, which is why it remains active against many UL97-mutant strains.",
+                whyWrong: {0: "UL97 is important for activating ganciclovir, but foscarnet bypasses that pathway.", 2: "The cellular proteasome is not the antiviral target of foscarnet."},
+                resourceTitle: "Mechanism of action review",
+                resourceType: "text"
+            },
+            {
+                q: "Standard dose of Maribavir for R/R CMV:",
+                a: 1,
+                c: ["200mg BID", "400mg BID", "900mg BID"],
+                explanation: "The standard answer tested for refractory/resistant CMV is maribavir 400 mg twice daily.",
+                whyWrong: {0: "200 mg BID is too low for the standard dosing question being asked.", 2: "900 mg BID reflects valganciclovir-style dosing logic, not maribavir."},
+                resourceTitle: "Dosing check",
+                resourceType: "text"
+            },
+            {
+                q: "Suspected resistance warrants which test?",
+                a: 1,
+                c: ["Repeat IgG", "UL97/UL54 Genotyping", "Biopsy"],
+                explanation: "When resistance is suspected, UL97 and UL54 genotypic testing is the key diagnostic step because it identifies antiviral resistance mutations that drive treatment selection.",
+                whyWrong: {0: "Repeat IgG does not answer the resistance question.", 2: "Biopsy may help in selected situations, but it is not the primary resistance test being assessed here."},
+                resourceTitle: "Resistance workup path",
+                resourceType: "text"
+            },
+            {
+                q: "What % of patients report taste disturbances on Maribavir?",
+                a: 2,
+                c: ["<5%", "15%", ">35%"],
+                explanation: "Taste disturbance is common with maribavir, and the tested teaching point is that the rate is greater than 35%.",
+                whyWrong: {0: "Less than 5% would dramatically understate how common dysgeusia is with maribavir.", 1: "15% is still too low for the classic board-style teaching point."},
+                resourceTitle: "AE frequency reminder",
+                resourceType: "text"
+            },
+            {
+                q: "A 'U-shaped' viral kinetics curve suggests:",
+                a: 0,
+                c: ["Breakthrough resistance", "Viral clearance", "Immune exhaustion"],
+                explanation: "A U-shaped kinetics curve means the viral load initially falls, then rebounds, which is a classic warning sign for breakthrough resistance or treatment failure.",
+                whyWrong: {1: "Viral clearance would show continued downward movement, not rebound.", 2: "Immune exhaustion may be clinically relevant in some contexts, but it is not the primary interpretation of this curve pattern."},
+                resourceTitle: "Kinetics pattern walkthrough",
+                resourceType: "text"
+            }
+        ];
+
+        function initQuiz() {
+            const dots = document.getElementById('q-dots');
+            for (let i = 1; i <= 15; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full ${i === 1 ? 'bg-blue-600' : 'bg-slate-200'}`;
+                dot.id = `dot-${i}`;
+                dots.appendChild(dot);
+            }
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const container = document.getElementById('quiz-container');
+            const q = quizData[currentQ - 1];
+            document.getElementById('q-number').innerText = currentQ.toString().padStart(2, '0');
+            container.innerHTML = `
+                <div class="quiz-card active space-y-8">
+                    <h3 class="text-2xl font-bold leading-tight">${q.q}</h3>
+                    <div class="grid gap-4">
+                        ${q.c.map((choice, i) => `
+                            <button onclick="handleQuiz(${i})" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-600 transition flex justify-between items-center group">
+                                <span>${choice}</span>
+                                <span class="material-symbols-outlined text-slate-200 group-hover:text-blue-600">circle</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        let currentSelectedAnswer = null;
+
+        function buildResourceHtml(q, correct) {
+            if (correct) {
+                return `
+                    <div class="mt-4 text-sm text-emerald-900">
+                        <div class="font-bold mb-1">Why this is correct</div>
+                        <p>${q.explanation}</p>
+                    </div>
+                `;
+            }
+
+            const wrongReason = (q.whyWrong && q.whyWrong[currentSelectedAnswer] !== undefined)
+                ? q.whyWrong[currentSelectedAnswer]
+                : "This option does not align with the expected guideline-based answer for this case.";
+
+            const resourceBlock = `
+                <div class="mt-5 bg-white/70 border border-red-100 rounded-2xl p-4 text-sm text-slate-700">
+                    <div class="font-bold text-slate-900 mb-1">${q.resourceTitle || "Explanation"}</div>
+                    <ul class="rationale-list text-slate-700">
+                        <li>${wrongReason}</li>
+                        <li>${q.explanation}</li>
+                    </ul>
+                </div>
+            `;
+
+            return `
+                <div class="mt-4 text-sm text-red-900">
+                    <div class="font-bold mb-1">Why this answer is wrong</div>
+                    <p>${wrongReason}</p>
+                    <div class="mt-3 text-sm text-slate-700">
+                        <span class="font-bold text-slate-900">Correct answer:</span> ${q.c[q.a]}
+                    </div>
+                    <div class="mt-2 text-sm text-slate-700">${q.explanation}</div>
+                    ${resourceBlock}
+                </div>
+            `;
+        }
+
+        function handleQuiz(idx) {
+            currentSelectedAnswer = idx;
+            const feedback = document.getElementById('quiz-feedback');
+            const q = quizData[currentQ - 1];
+            const correct = q.a === idx;
+            feedback.classList.remove('hidden', 'bg-red-50', 'bg-emerald-50', 'border', 'border-red-200', 'border-emerald-200');
+
+            if (correct) {
+                score++;
+                feedback.innerHTML = `
+                    <p class="font-bold text-emerald-800 flex items-center gap-2">
+                        <span class="material-symbols-outlined">check_circle</span> Correct
+                    </p>
+                    ${buildResourceHtml(q, true)}
+                    <div class="mt-5">
+                        <button onclick="advanceQuiz()" class="bg-emerald-600 text-white px-5 py-2 rounded-xl font-bold hover:bg-emerald-700 transition">Next Question</button>
+                    </div>
+                `;
+                feedback.classList.add('bg-emerald-50', 'border', 'border-emerald-200');
+            } else {
+                feedback.innerHTML = `
+                    <p class="font-bold text-red-800 flex items-center gap-2">
+                        <span class="material-symbols-outlined">cancel</span> Incorrect
+                    </p>
+                    ${buildResourceHtml(q, false)}
+                    <div class="mt-5">
+                        <button onclick="advanceQuiz()" class="bg-red-600 text-white px-5 py-2 rounded-xl font-bold hover:bg-red-700 transition">Continue</button>
+                    </div>
+                `;
+                feedback.classList.add('bg-red-50', 'border', 'border-red-200');
+            }
+
+            feedback.classList.remove('hidden');
+        }
+
+        function advanceQuiz() {
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('hidden');
+
+            if (currentQ < 15) {
+                currentQ++;
+                document.getElementById(`dot-${currentQ}`).classList.replace('bg-slate-200', 'bg-blue-600');
+                loadQuestion();
+                addProgress(6.3);
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            addProgress(100);
+            document.getElementById('quiz-container').innerHTML = `
+                <div class="text-center space-y-8 py-12">
+                    <span class="material-symbols-outlined text-7xl text-blue-600 animate-bounce">verified</span>
+                    <h3 class="text-4xl font-black">Assessment Complete</h3>
+                    <div class="flex justify-center gap-12">
+                        <div><p class="text-xs font-bold text-slate-400 uppercase">Score</p><p class="text-4xl font-black">${score}/15</p></div>
+                        <div><p class="text-xs font-bold text-slate-400 uppercase">Percent</p><p class="text-4xl font-black text-blue-600">${Math.round((score/15)*100)}%</p></div>
+                    </div>
+                    <button onclick="location.reload()" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-blue-500/30 transition">Claim Certificate</button>
+                </div>
+            `;
+        }
+
+        // Initialize
+        window.onload = () => {
+            updateKinetics();
+            initQuiz();
+        };
+    </script>
+</body>
+</html>
