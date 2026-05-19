@@ -6,11 +6,24 @@
     <title>Real World CE | Comprehensive CMV Mastery</title>
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        navy: '#002147',
+                        'navy-light': '#003366'
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
         .mono { font-family: 'JetBrains Mono', monospace; }
         .bg-medical-blue { background-color: #002147; }
         .text-medical-blue { color: #002147; }
@@ -48,24 +61,13 @@
     <header class="sticky top-0 z-50 glass">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <!-- Globe Icon -->
-                <div class="flex items-center justify-center">
-                    <img src="logo-transparent.png" class="h-16 w-auto object-contain drop-shadow-lg" alt="Real World CE Logo">
-                        <circle cx="15" cy="15" r="15"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <line x1="12" y1="2" x2="12" y2="22"></line>
-                    </svg>
-                </div>
-
                 <!-- Text Logo -->
                 <div class="flex flex-col leading-tight">
-                    <span class="font-extrabold text-2xl tracking-tight text-slate-900 uppercase">
-                        Real World <span class="text-blue-600">CE</span>
+                    <span class="font-black text-lg uppercase whitespace-nowrap text-medical-blue tracking-tight">
+                        REAL WORLD <span class="text-blue-600">CE</span>
                     </span>
-                    <span class="text-[10px] font-semibold tracking-widest uppercase text-slate-500 mt-1">
-                        Featuring:
-                        <span class="font-extrabold text-slate-900">REAL </span>
-                        <span class="font-extrabold text-blue-600">CASE</span>
+                    <span class="text-[10px] font-black tracking-[0.22em] uppercase text-slate-500 mt-1">
+                        Featuring: <span class="text-slate-900">REAL WORLD </span><span class="text-blue-600">CASE</span>
                     </span>
                 </div>
             </div>
@@ -294,10 +296,7 @@
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
             <div class="col-span-2 space-y-6">
                 <div class="flex items-center gap-3">
-                    <div class="p-0">
-                        <img src="logo-transparent.png" class="h-12 w-auto object-contain opacity-95" alt="Real World CE Logo">
-                    </div>
-                    <span class="font-extrabold text-xl tracking-tighter uppercase">REAL WORLD CE</span>
+                    <span class="font-black text-xl tracking-tight uppercase">REAL WORLD CE</span>
                 </div>
                 <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
                     Leading the digital transformation of accredited medical education through real-world clinical simulations.
